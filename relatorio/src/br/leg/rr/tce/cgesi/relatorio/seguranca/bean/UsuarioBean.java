@@ -114,13 +114,11 @@ public class UsuarioBean extends AbstractBean implements Serializable {
         }
 
     }
-    public String mostraUser(){
+    public String getMostraUser(){
     	if(remoteUser() != null) {
-            return remoteUser();
-        }
+            return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();            
+    	}
     	return null;
-    		
-    	
     }
     
 	public Servidor getUsuario() {
