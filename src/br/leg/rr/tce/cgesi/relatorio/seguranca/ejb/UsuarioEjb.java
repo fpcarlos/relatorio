@@ -68,10 +68,12 @@ public class UsuarioEjb extends AbstractEjb implements Serializable{
 
 	}
 	
-	public Servidor pegaLogado() throws Exception{
+	
+	
+	public Servidor pegaLogado(String vnome) throws Exception{
 		try {
 			//FacesContext context = FacesContext.getCurrentInstance();
-			String vnome = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+			//String vnome = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
 			String sql = "select * from scsisaudit.servidor where login = '" + vnome +"' " ;
 			List<Servidor> listaU = executaSqlNativo(sql, Servidor.class, entityManager);
 			

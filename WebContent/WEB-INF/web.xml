@@ -92,14 +92,14 @@
 		<description />
 		<role-name>user</role-name>
 	</security-role>
- 	<!-- 
+ 	
 	<filter>
 		<filter-name>filtro</filter-name>
-		<filter-class>br.leg.rr.tec.cgesi.relatorio.seguranca.filtro.Filtro</filter-class>
+		<filter-class>br.leg.rr.tce.cgesi.relatorio.seguranca.filtro.Filtro</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>filtro</filter-name>
 		<url-pattern>/sistema/*</url-pattern>
 	</filter-mapping>
-	 -->
+	
 </web-app>

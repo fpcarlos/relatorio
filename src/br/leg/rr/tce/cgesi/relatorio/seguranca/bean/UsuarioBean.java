@@ -1,16 +1,15 @@
 package br.leg.rr.tce.cgesi.relatorio.seguranca.bean;
 
 import java.io.Serializable;
-import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,10 +24,11 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
+	@EJB
 	protected UsuarioEjb usuarioEjb;
-	@Inject
-	protected Conversation conversation;
+	
+	//@EJB
+	//protected Conversation conversation;
 	
 	protected Servidor usuario;
 	protected Servidor usuarioSelected;
@@ -126,14 +126,13 @@ public class UsuarioBean extends AbstractBean implements Serializable {
     	return null;
     }
     
-    public Servidor getUsuarioLogado(){
+    public void preencherUsuarioLogado(){
     	try {
-    		if(remoteUser() != null) {
-                return usuarioEjb.pegaLogado();            
-        	}
-        	return null;
+    		String vnome = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+    	    usuario = usuarioEjb.pegaLogado(vnome);            
+        	
 		} catch (Exception e) {
-			return null;
+			//return null;
 		}
     	
     }
