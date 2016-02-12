@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -65,6 +66,26 @@ public class UsuarioEjb extends AbstractEjb implements Serializable{
 			throw new Exception(" Erro" + e.getMessage());
 		}
 
+	}
+	
+	public Servidor pegaLogado() throws Exception{
+		try {
+			//FacesContext context = FacesContext.getCurrentInstance();
+			String vnome = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+			String sql = "select * from scsisaudit.servidor where login = '" + vnome +"' " ;
+			List<Servidor> listaU = executaSqlNativo(sql, Servidor.class, entityManager);
+			
+			Servidor aux = entityManager.find(Servidor.class, listaU.get(0).getId());
+			//Servidor aux = executaSqlNativo(sql, Servidor.class, entityManager);
+			return aux;
+			
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			throw new Exception(" Erro" + re.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(" Erro" + e.getMessage());
+		}
 	}
 	
 

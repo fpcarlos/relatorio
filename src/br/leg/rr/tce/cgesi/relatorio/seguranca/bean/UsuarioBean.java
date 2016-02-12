@@ -1,6 +1,8 @@
 package br.leg.rr.tce.cgesi.relatorio.seguranca.bean;
 
 import java.io.Serializable;
+import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -115,10 +117,25 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 
     }
     public String getMostraUser(){
+    	String aux1 = remoteUser();
+    	Principal aux2 = (Principal) FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
     	if(remoteUser() != null) {
+    		
             return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();            
     	}
     	return null;
+    }
+    
+    public Servidor getUsuarioLogado(){
+    	try {
+    		if(remoteUser() != null) {
+                return usuarioEjb.pegaLogado();            
+        	}
+        	return null;
+		} catch (Exception e) {
+			return null;
+		}
+    	
     }
     
 	public Servidor getUsuario() {
