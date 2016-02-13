@@ -99,6 +99,9 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 
     public boolean isUserLoggedIn() {
         if(remoteUser() != null) {
+        	if (getUsuario() == null) {
+    				preencherUsuarioLogado();
+    		}
             return true;
         }
         return false;
