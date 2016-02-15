@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -17,6 +16,7 @@ import br.leg.rr.tce.cgesi.relatorio.bean.AbstractBean;
 import br.leg.rr.tce.cgesi.relatorio.entity.Grupo;
 import br.leg.rr.tce.cgesi.relatorio.entity.Servidor;
 import br.leg.rr.tce.cgesi.relatorio.seguranca.ejb.UsuarioEjb;
+import br.leg.rr.tce.cgesi.relatorio.seguranca.util.SessionControllerUsuarioListener;
 
 @Named
 @SessionScoped
@@ -122,6 +122,7 @@ public class UsuarioBean extends AbstractBean implements Serializable {
     public String getMostraUser(){
     	String aux1 = remoteUser();
     	Principal aux2 = (Principal) FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+    	
     	if(remoteUser() != null) {
     		
             return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();            
@@ -138,6 +139,38 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 			//return null;
 		}
     	
+    }
+    
+    public String logar() {
+        boolean estaLogado = false;
+        List<Servidor> listaUsuariosLogados = SessionControllerUsuarioListener.getListaServidorsLogados();
+        try {
+        	String vnome = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+    	    usuario = usuarioEjb.pegaLogado(vnome);
+            //usuario = usuarioDao.recuperaUsuario(login, senha);            
+            if (!listaUsuariosLogados.isEmpty()) {                
+                for (Servidor user : listaUsuariosLogados) {
+                    if (user.equals(usuario)) {
+                        estaLogado = true;
+                    }
+                }
+            } else {
+                //return loginPermitido();
+            	return "login1";
+            }
+            if (estaLogado) {
+                //FacesUtil.mensagemErro("Erro: o usuário já está logado!!", "");
+                return "login2";
+            } else {
+                //return loginPermitido();
+            	return "login3";
+            }
+
+        } catch (Exception ex) {
+        	//ex.
+            //FacesUtil.mensagemErro("Erro ao tentar logar", "Verifique se o nome e a senha estão corretos.");
+        }
+        return "login0";
     }
     
 	public Servidor getUsuario() {

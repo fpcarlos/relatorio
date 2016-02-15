@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import br.leg.rr.tce.cgesi.relatorio.entity.Servidor;
 
 public class SessionControllerUsuarioListener implements HttpSessionAttributeListener{
-	private Servidor ServidorLogado;
+	private Servidor servidorLogado;
     private static List<Servidor> listaServidorsLogados = new ArrayList<Servidor>();
     private static int qtdeServidorsLogados = 0;
     private static Map<Servidor, HttpSession> ServidorSessao = new HashMap<Servidor, HttpSession>();
@@ -20,12 +20,12 @@ public class SessionControllerUsuarioListener implements HttpSessionAttributeLis
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
         if (event.getValue() instanceof Servidor) {
-            ServidorLogado = (Servidor) event.getValue();
+            servidorLogado = (Servidor) event.getValue();
             System.out.println("Servidor entrou > " + event.getValue());
             qtdeServidorsLogados++;
             System.out.println("Servidor logou. Quantidade de Servidors logados = " + qtdeServidorsLogados);
-            listaServidorsLogados.add(ServidorLogado);         
-            ServidorSessao.put(ServidorLogado, event.getSession());
+            listaServidorsLogados.add(servidorLogado);         
+            ServidorSessao.put(servidorLogado, event.getSession());
             System.out.println("ServidorSessao " + ServidorSessao);
         }
     }
@@ -35,8 +35,8 @@ public class SessionControllerUsuarioListener implements HttpSessionAttributeLis
         if (event.getValue() instanceof Servidor) {
             System.out.println("Servidor saiu > " + event.getValue());
             qtdeServidorsLogados--;
-            listaServidorsLogados.remove(ServidorLogado);
-            ServidorSessao.remove(ServidorLogado);
+            listaServidorsLogados.remove(servidorLogado);
+            ServidorSessao.remove(servidorLogado);
             System.out.println("ServidorSessao " + ServidorSessao);
             System.out.println("Servidor saiu. Quantidade de Servidors logados = " + qtdeServidorsLogados);
 

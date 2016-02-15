@@ -95,15 +95,15 @@
 							</tr>
 						</table>
 					</fieldset>
-				</fieldset>				
+				</fieldset>
 			</h:panelGroup>
-			</h:form>
-			
-			<h:panelGroup>
-			 <fieldset>
-			   <legend>Portarias Cadastradas</legend>
-			   <h:form id="form" prependId="false"  >
-			   
+		</h:form>
+
+		<h:panelGroup>
+			<fieldset>
+				<legend>Portarias Cadastradas</legend>
+				<h:form id="form" prependId="false">
+
 					<p:dataTable id="listaPortarias"
 						value="#{cadasroPortariaBean.auditoria.portariaList}" var="s"
 						emptyMessage="Nenhuma Portaria Enqontrada" rows="5"
@@ -111,69 +111,78 @@
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						currentPageReportTemplate="({currentPage} de {totalPages})">
 
-				<p:column headerText="No Portaria" width="10%">
-					<h:outputText style="font-weight: bold"
-						value="#{s.numeroPortaria}" />
-				</p:column>
-				<p:column headerText="Objetivo" width="30%">
-					<h:outputText style="font-weight: bold" value="#{s.objetivo}" />
-				</p:column>
-				<p:column headerText="Fase Planejamento" colspan="2" width="10%">
+						<p:column headerText="No Portaria" width="10%">
+							<h:outputText style="font-weight: bold"
+								value="#{s.numeroPortaria}" />
+						</p:column>
+						<p:column headerText="Objetivo" width="30%">
+							<h:outputText style="font-weight: bold" value="#{s.objetivo}" />
+						</p:column>
+						<p:column headerText="Fase Planejamento" colspan="2" width="10%">
 				    Início:
-					<h:outputText style="font-weight: bold" value="#{s.planInicio}" >
-                       <f:convertDateTime pattern="dd/MM/YYYY" />
-					</h:outputText>
-					<br></br>
+					<h:outputText style="font-weight: bold" value="#{s.planInicio}">
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+							<br></br>
 					Fim:
-					<h:outputText style="font-weight: bold" value="#{s.planFim}" >
-                       <f:convertDateTime pattern="dd/MM/YYYY" />
-					</h:outputText>					
-					<br></br>
+					<h:outputText style="font-weight: bold" value="#{s.planFim}">
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+							<br></br>
 					Dias úteis:
 					<h:outputText style="font-weight: bold" value="#{s.planDiasUteis}" />
-				</p:column>
-				<p:column headerText="Fase Execução" colspan="2" width="10%">
+						</p:column>
+						<p:column headerText="Fase Execução" colspan="2" width="10%">
 				    Início:
-					<h:outputText style="font-weight: bold" value="#{s.execInicio}" >
-                       <f:convertDateTime pattern="dd/MM/YYYY" />
-					</h:outputText>
-					<br></br>
+					<h:outputText style="font-weight: bold" value="#{s.execInicio}">
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+							<br></br>
 					Fim:
-					<h:outputText style="font-weight: bold" value="#{s.execFim}" >
-                       <f:convertDateTime pattern="dd/MM/YYYY" />
-					</h:outputText>
-					<br></br>
+					<h:outputText style="font-weight: bold" value="#{s.execFim}">
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+							<br></br>
 					Dias úteis:
-					<h:outputText style="font-weight: bold" value="#{s.execDiasUteis}" />										
-				</p:column>			
-				<p:column headerText="Fase Relatório" colspan="2" width="10%">
+					<h:outputText style="font-weight: bold" value="#{s.execDiasUteis}" />
+						</p:column>
+						<p:column headerText="Fase Relatório" colspan="2" width="10%">
 				    Início:
-					<h:outputText style="font-weight: bold" value="#{s.relaInicio}" >
-                       <f:convertDateTime pattern="dd/MM/YYYY" />
-					</h:outputText>
-					<br></br>
+					<h:outputText style="font-weight: bold" value="#{s.relaInicio}">
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+							<br></br>
 					Fim:
-					<h:outputText style="font-weight: bold" value="#{s.relaFim}" >
-                       <f:convertDateTime pattern="dd/MM/YYYY" />
-					</h:outputText>					
-					<br></br>
+					<h:outputText style="font-weight: bold" value="#{s.relaFim}">
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+							<br></br>
 					Dias úteis:
-					<h:outputText style="font-weight: bold" value="#{s.relaDiasUteis}" />					
-				</p:column>					
-				<p:column headerText="Opções" width="5%">
-				  <p:commandButton icon="ui-icon-pencil" action="#{cadasroPortariaBean.prepararEditPortaria(s)}" title="Editar"></p:commandButton>				  
-				  <p:commandButton process="@all" icon="ui-icon-trash" action="#{cadasroPortariaBean.remover(s)}" title="Excluir" oncomplete="popAprovar.hide(); #{cadasroPortariaBean.auditoria.portariaList}"></p:commandButton>			
-				</p:column>
-				
-				</p:dataTable>
+					<h:outputText style="font-weight: bold" value="#{s.relaDiasUteis}" />
+						</p:column>
+						<p:column headerText="Opções" width="5%">
+							<p:commandButton icon="ui-icon-pencil"
+								action="#{cadasroPortariaBean.prepararEditPortaria(s)}"
+								title="Editar"></p:commandButton>
+							<p:commandButton process="@all" icon="ui-icon-trash"
+								action="#{cadasroPortariaBean.remover(s)}" title="Excluir"
+								oncomplete="popAprovar.hide(); #{cadasroPortariaBean.auditoria.portariaList}"></p:commandButton>
+						</p:column>
+
+					</p:dataTable>
 				</h:form>
-			 </fieldset>
-			 
-			 <p:commandButton value="Novo" action="#{cadasroPortariaBean.prepararNovaPortaria()}" icon="ui-icon-disk" immediate="true" />
-			<p:commandButton value="Cancelar" action="#{auditoriaBean.abrirListaAuditoria}" icon="ui-icon-close" immediate="true" />
-			</h:panelGroup>
-			
-		
+			</fieldset>
+			<h:form>
+				<p:commandButton value="Novo"
+					action="#{cadasroPortariaBean.prepararNovaPortaria()}"
+					icon="ui-icon-disk" immediate="true" />
+				<p:commandButton value="Cancelar"
+					action="#{auditoriaBean.abrirListaAuditoria}" icon="ui-icon-close"
+					immediate="true" />
+			</h:form>
+		</h:panelGroup>
+
+
 	</ui:define>
 </ui:composition>
 </html>

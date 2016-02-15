@@ -59,6 +59,7 @@ public class SistemaBean extends AbstractBean implements Serializable {
 			getUnidadeGestoraList();
 			getUnidadeFiscalizadoraList();
 			getCriteriosSelecaoList();
+			getServidorList();
 			
 		} catch (Exception e) {
 			e.printStackTrace();

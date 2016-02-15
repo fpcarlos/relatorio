@@ -19,7 +19,8 @@
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Development</param-value>
+		<param-value>Production</param-value>
+		<!-- <param-value>Development</param-value> -->
 	</context-param>
 	<!-- required if you want HTML comments mixed in with JSF tags -->
 	<context-param>
@@ -62,7 +63,7 @@
 		<web-resource-collection>
 			<web-resource-name>user</web-resource-name>
 			<description />
-			<url-pattern>/sistema/*</url-pattern>
+			<url-pattern>/sistema/auditoria/*</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>POST</http-method>
 		</web-resource-collection>
