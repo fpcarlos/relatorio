@@ -207,9 +207,15 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 			portaria.setTipoFiscalizacao(auditoria.getTipoFiscalizacao());
 
 			sistemaBean.getServidorList();
-			//portaria.setServidor(sistemaBean.getServidorMap().get(portaria.getServidor().getId()));
 			
-			//portaria.setNumeroPortaria(portariaEjb.ultimoNumeroPortaria("2015"));
+			//portaria.setServidor(sistemaBean.getServidorMap().get(portaria.getServidor().getId()));
+			String vano="2015";
+			String vnum="";
+			for (Portaria temp : portariaEjb.ultimoNumeroPortaria(vano)) {
+				vnum=temp.getNumeroPortaria();
+			}
+			
+			portaria.setNumeroPortaria(vnum);
 			
 			
 			
