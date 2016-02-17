@@ -92,6 +92,8 @@ public class SistemaEjb extends AbstractEjb implements Serializable {
 		}
 	}
 	
+
+	
 	public List<UnidadeGestora> findUGA(Auditoria aux) throws Exception {
 		try {
 			String sql = "select distinct ug.* from scsisaudit.unidade_gestora_auditoria uga "
@@ -110,6 +112,7 @@ public class SistemaEjb extends AbstractEjb implements Serializable {
 		}
 
 	}	
+	
 	
 	
 }

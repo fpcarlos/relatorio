@@ -140,7 +140,9 @@ public class Portaria implements Serializable {
 	private List<PortariasAndamento> portariasAndamentos;
 
 	// bi-directional many-to-one association to UnidadeGestoraPortaria
-	@OneToMany(mappedBy = "portaria")
+	//@OneToMany(mappedBy = "portaria")
+	//Lista duplicada para ser excluida posteriormente
+	@Transient
 	private List<UnidadeGestoraPortaria> unidadeGestoraPortarias = new ArrayList<UnidadeGestoraPortaria>();
 
 	@Transient
@@ -564,5 +566,16 @@ public class Portaria implements Serializable {
 		return unidadeGestoraPortaria;
 	}
 
+	public String getListaSiglaUnidadeGestoraDaPortaria(){
+		String temp="";
+		for (UnidadeGestoraPortaria ptemp : listaUnidadeGestoraDaPortaria) {
+			if(temp.length()>0){
+				temp=temp+", "+ptemp.getUnidadeGestora().getSigla();
+			}else{
+				temp=ptemp.getUnidadeGestora().getSigla();
+			}
+		}
+		return temp;
+	}
 
 }

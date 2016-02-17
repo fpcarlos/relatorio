@@ -22,13 +22,10 @@ public class TipoFiscalizacaoEjb extends AbstractEjb implements Serializable{
 				entityManager.merge(entity);
 			}else{
 				entityManager.persist(entity);	
-				
 			}
-			
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
-
 	}
 
     public void remove(TipoFiscalizacao entity){

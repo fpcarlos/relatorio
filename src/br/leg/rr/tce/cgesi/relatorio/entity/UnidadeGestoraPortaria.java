@@ -2,7 +2,9 @@ package br.leg.rr.tce.cgesi.relatorio.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import br.leg.rr.tce.cgesi.relatorio.comum.entity.UnidadeGestora;
 
@@ -28,16 +31,25 @@ public class UnidadeGestoraPortaria implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	//@Column(name="id_unidade_gestora")
-	//private Integer idUnidadeGestora;
-	@ManyToOne
-	@JoinColumn(name="id_unidade_gestora")
-	private UnidadeGestora unidadeGestora;
+	
+	//@ManyToOne
+	//@JoinColumn(name="id_unidade_gestora")
+	@Transient
+	private UnidadeGestora unidadeGestora = new UnidadeGestora();
 
 	//bi-directional many-to-one association to Portaria
-	@ManyToOne
-	@JoinColumn(name="id_portaria")
-	private Portaria portaria;
+	//@ManyToOne
+	//@JoinColumn(name="id_portaria")
+	@Transient
+	private Portaria portaria = new Portaria();
+	
+	@Column(name="id_unidade_gestora")
+	private Integer id_unidade_gestora;
+
+	
+	
+	@Column(name="id_portaria")
+	private Integer id_portaria;
 
 	public UnidadeGestoraPortaria() {
 	}
@@ -75,5 +87,24 @@ public class UnidadeGestoraPortaria implements Serializable {
 	public void setPortaria(Portaria portaria) {
 		this.portaria = portaria;
 	}
+
+	public Integer getId_unidade_gestora() {
+		return id_unidade_gestora;
+	}
+
+	public void setId_unidade_gestora(Integer id_unidade_gestora) {
+		this.id_unidade_gestora = id_unidade_gestora;
+	}
+
+	public Integer getId_portaria() {
+		return id_portaria;
+	}
+
+	public void setId_portaria(Integer id_portaria) {
+		this.id_portaria = id_portaria;
+	}
+	
+	
+	
 
 }

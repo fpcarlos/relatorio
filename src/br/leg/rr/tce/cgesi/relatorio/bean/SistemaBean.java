@@ -49,7 +49,7 @@ public class SistemaBean extends AbstractBean implements Serializable {
 	
 	private List<Servidor> servidorList;
 	private Map<Integer, Servidor> servidorMap = new HashMap<Integer, Servidor>();
-	
+
 	private List<TipoAuditor> tipoAuditorList;
 	private Map<Integer, TipoAuditor> tipoAuditorMap = new HashMap<Integer, TipoAuditor>();
 		
@@ -60,7 +60,6 @@ public class SistemaBean extends AbstractBean implements Serializable {
 			getUnidadeFiscalizadoraList();
 			getCriteriosSelecaoList();
 			getServidorList();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -283,6 +282,7 @@ public class SistemaBean extends AbstractBean implements Serializable {
 		
 	}
 
+	
 	public void setServidorList(List<Servidor> servidorList) {
 		this.servidorList = servidorList;
 	}
@@ -329,8 +329,6 @@ public class SistemaBean extends AbstractBean implements Serializable {
 	public void setTipoAuditorMap(Map<Integer, TipoAuditor> tipoAuditorMap) {
 		this.tipoAuditorMap = tipoAuditorMap;
 	}
-	
-	
-	
+
 	
 }

@@ -52,6 +52,23 @@ public class UnidadeGestoraPortariaEjb extends AbstractEjb implements Serializab
 			throw new Exception(" Erro" + e.getMessage());
 		}
 	}
+
+	
+	public List<UnidadeGestoraPortaria> listaUGDasPortaria(String listaPortaria) throws Exception {
+		try {
+			String sql = "select * from scsisaudit.unidade_gestora_portaria where id_portaria in (" + listaPortaria + ") order by id_portaria, id";
+			List<UnidadeGestoraPortaria> listaUGP = executaSqlNativo(sql, UnidadeGestoraPortaria.class, entityManager);
+			return listaUGP;
+
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			throw new Exception(" Erro" + re.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(" Erro" + e.getMessage());
+		}
+	}
+
 	
 	public List<UnidadeGestoraPortaria> findIAll() throws Exception {
 		try {
