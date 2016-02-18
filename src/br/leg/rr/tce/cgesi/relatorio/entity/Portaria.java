@@ -568,7 +568,8 @@ public class Portaria implements Serializable {
 
 	public String getListaSiglaUnidadeGestoraDaPortaria(){
 		String temp="";
-		for (UnidadeGestoraPortaria ptemp : listaUnidadeGestoraDaPortaria) {
+		//listaUnidadeGestoraDaPortaria
+		for (UnidadeGestoraPortaria ptemp : unidadeGestoraPortarias) {
 			if(temp.length()>0){
 				temp=temp+", "+ptemp.getUnidadeGestora().getSigla();
 			}else{
