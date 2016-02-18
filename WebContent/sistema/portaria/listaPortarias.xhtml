@@ -13,7 +13,7 @@
 	<h:panelGroup id="display" layout="block" style="overflow-y:scroll">
 		<h:form id="listaPortariasForm">
 		<p:panelGrid id="display">
-			<p:commandButton value="Nova Portaria"  action="#{cadasroPortariaBean.preparaCadastroPortariaSemAuditoria}"/>
+			<p:commandButton value="Nova Portaria"  action="#{cadasroPortariaBean.prepararNovaPortaria}"/>
 		</p:panelGrid>
 				
 		<p:panelGrid id="display2">
@@ -34,11 +34,11 @@
 					<h:outputText style="font-weight: bold"
 						value="#{s.anoPortaria}" />
 				</p:column>
-				<p:column headerText="Siglas" width="30%">
+				<p:column headerText="Siglas" width="20%">
 					<h:outputText style="font-weight: bold" value="#{s.listaSiglaUnidadeGestoraDaPortaria}" />
 				</p:column>
 								
-				<p:column headerText="Objetivo" width="30%">
+				<p:column headerText="Objetivo" width="40%">
 					<h:outputText style="font-weight: bold" value="#{s.objetivo}" />
 				</p:column>
 				<!-- 
@@ -85,8 +85,8 @@
 					<h:outputText style="font-weight: bold" value="#{s.relaDiasUteis}" />					
 				</p:column>	
 				 -->
-				<p:column headerText="Opções" width="5%">
-				  <p:commandButton icon="ui-icon-pencil" action="#{cadasroPortariaBean.prepararEditPortaria(s)}" title="Editar" escape="true"/>	
+				<p:column headerText="Opções" width="10%">
+				  <p:commandButton icon="ui-icon-pencil" action="#{cadasroPortariaBean.editaNovaPortaria(s)}" title="Editar" escape="true"/>	
 				  <p:commandButton icon="ui-icon-document-b" action="#{cadasroPortariaBean.abrirPdf}" title="Pdf"/>		
 				</p:column>
 		</p:dataTable>		
