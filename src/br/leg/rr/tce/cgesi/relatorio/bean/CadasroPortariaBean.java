@@ -1,7 +1,9 @@
 package br.leg.rr.tce.cgesi.relatorio.bean;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +64,7 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 
 	@EJB
 	private EquipeFiscalizacaoEjb equipeFiscalizacaoEjb;
-	
+
 	@EJB
 	private ServidorEjb servidorEjb;
 
@@ -78,7 +80,7 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 	private List<EquipeFiscalizacao> equipeFiscalizacaoList = new ArrayList<EquipeFiscalizacao>();
 
 	private List<Servidor> servidorList = new ArrayList<Servidor>();
-	
+
 	private List<Servidor> servidorAutoridadeList = new ArrayList<Servidor>();
 
 	private String msgTexto;
@@ -186,80 +188,154 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 
 	public String prepararNovaPortaria() {
 		try {
+			portaria = new Portaria();
 
-			portaria = portariaEjb.iniciarPortiariaComAuditoria(auditoria);
-			portaria.setEquipeFiscalizacaoList(new ArrayList<EquipeFiscalizacao>() );
-			// System.out.println("");
-			portaria.setIdAuditoria(auditoria.getId());
-			portaria.setObjetivo(auditoria.getObjetivo());
+			// portaria = portariaEjb.iniciarPortiariaComAuditoria(auditoria);
+			// portaria.setEquipeFiscalizacaoList(new
+			// ArrayList<EquipeFiscalizacao>()); // System.out.println("");
+			// portaria.setIdAuditoria(auditoria.getId());
+			// portaria.setObjetivo(auditoria.getObjetivo());
 
-			portaria.setPlanInicio(auditoria.getPlanInicioPrev());
-			portaria.setPlanFim(auditoria.getPlanFimPrev());
-			portaria.setPlanDiasUteis(auditoria.getPlanDiasUteisPrev());
+			// portaria.setPlanInicio(auditoria.getPlanInicioPrev());
+			// portaria.setPlanFim(auditoria.getPlanFimPrev());
+			// portaria.setPlanDiasUteis(auditoria.getPlanDiasUteisPrev());
 
-			portaria.setExecInicio(auditoria.getExecInicioPrev());
-			portaria.setExecFim(auditoria.getExecFimPrev());
-			portaria.setExecDiasUteis(auditoria.getExecDiasUteisPrev());
+			// portaria.setExecInicio(auditoria.getExecInicioPrev());
+			// portaria.setExecFim(auditoria.getExecFimPrev());
+			// portaria.setExecDiasUteis(auditoria.getExecDiasUteisPrev());
 
-			portaria.setRelaInicio(auditoria.getRelaInicioPrev());
-			portaria.setRelaFim(auditoria.getRelaFimPrev());
-			portaria.setRelaDiasUteis(auditoria.getRelaDiasUteisPrev());
+			// portaria.setRelaInicio(auditoria.getRelaInicioPrev());
+			// portaria.setRelaFim(auditoria.getRelaFimPrev());
+			// portaria.setRelaDiasUteis(auditoria.getRelaDiasUteisPrev());
 
-			portaria.setTipoFiscalizacao(auditoria.getTipoFiscalizacao());
-			
-			
-			
+			// portaria.setTipoFiscalizacao(auditoria.getTipoFiscalizacao());
+
+			servidorAutoridadeList = new ArrayList<Servidor>();
+
 			for (Servidor stemp : servidorEjb.findAll()) {
 				String vtipo = stemp.getAutoridade();
-				if(vtipo.contains("S"))
+				if (vtipo.contains("S"))
 					servidorAutoridadeList.add(stemp);
 			}
-
-			//sistemaBean.getServidorAutoridadeList();
-			
-			
-			unidadeGestoraDaAuditoria = new ArrayList<UnidadeGestora>();
-			unidadeGestoraSelecionadas = new ArrayList<UnidadeGestora>();
-			unidadeGestoraDaPortaria = new ArrayList<UnidadeGestora>();
-
-			for (UnidadeGestoraAuditoria x : portaria.getAuditoria().getUnidadeGestoraAuditorias()) {
-				UnidadeGestoraPortaria unidGP = new UnidadeGestoraPortaria();
-				unidGP.setUnidadeGestora(x.getUnidadeGestora());
-				// unidGP.setIdUnidadeGestora(x.getUnidadeGestora().getId());
-				//unidGP.setPortaria(aux);
-				unidadeGestoraDaAuditoria.add(x.getUnidadeGestora());
-				//portaria.getListaUnidadeGestoraDaPortaria().add(unidGP);
-			}
-
 			/*
-			for (UnidadeGestoraPortaria x : unidadeGestoraPortariaEjb.findIdPortaria(portaria.getId())) {
-				UnidadeGestora unG = new UnidadeGestora();
-				// unG=sistemaBean.getUnidadeGestoraList().get(x.getIdUnidadeGestora());
-				unG = x.getUnidadeGestora();
-				unidadeGestoraSelecionadas.add(unG);
-				// unGP.setIdUnidadeGestora(x.getId());
-				// unGP.setPortaria(portaria);
-				// portaria.addUnidadeGestoraPortaria(unGP);
-			}
-			*/
-			
+			 * unidadeGestoraDaAuditoria = new ArrayList<UnidadeGestora>();
+			 * unidadeGestoraSelecionadas = new ArrayList<UnidadeGestora>();
+			 * unidadeGestoraDaPortaria = new ArrayList<UnidadeGestora>();
+			 * 
+			 * for (UnidadeGestoraAuditoria x :
+			 * portaria.getAuditoria().getUnidadeGestoraAuditorias()) {
+			 * UnidadeGestoraPortaria unidGP = new UnidadeGestoraPortaria();
+			 * unidGP.setUnidadeGestora(x.getUnidadeGestora()); //
+			 * unidGP.setIdUnidadeGestora(x.getUnidadeGestora().getId());
+			 * //unidGP.setPortaria(aux);
+			 * unidadeGestoraDaAuditoria.add(x.getUnidadeGestora());
+			 * //portaria.getListaUnidadeGestoraDaPortaria().add(unidGP); }
+			 */
+			/*
+			 * for (UnidadeGestoraPortaria x :
+			 * unidadeGestoraPortariaEjb.findIdPortaria(portaria.getId())) {
+			 * UnidadeGestora unG = new UnidadeGestora(); //
+			 * unG=sistemaBean.getUnidadeGestoraList().get(x.getIdUnidadeGestora
+			 * ()); unG = x.getUnidadeGestora();
+			 * unidadeGestoraSelecionadas.add(unG); //
+			 * unGP.setIdUnidadeGestora(x.getId()); //
+			 * unGP.setPortaria(portaria); //
+			 * portaria.addUnidadeGestoraPortaria(unGP); }
+			 */
 
 			// portaria.setServidor(sistemaBean.getServidorMap().get(portaria.getServidor().getId()));
-			String vano = "2015";
+			// Calendar cal = Calendar.getInstance();
+			// int year = cal.get(Calendar.YEAR);
+			String vano = String.valueOf((Calendar.getInstance().get(Calendar.YEAR)));
 			String vnum = "";
+
 			for (Portaria temp : portariaEjb.ultimoNumeroPortaria(vano)) {
 				vnum = temp.getNumeroPortaria();
 			}
+			if (vnum.isEmpty())
+				vnum = "000";
 
+			int nnum = Integer.valueOf(vnum) + 1;
+			DecimalFormat df = new DecimalFormat("000");
+			vnum = df.format((nnum));
+			// return df.format(Integer.parseInt(sb.toString()));
 			portaria.setNumeroPortaria(vnum);
+			portaria.setAnoPortaria(vano);
 
-			//return redirect("/sistema/portaria/cadastro/frmCadastroPortaria.xhtml");
+			// return
+			// redirect("/sistema/portaria/cadastro/frmCadastroPortaria.xhtml");
 			return redirect("/sistema/portaria/cadastro/frmCadPortaria.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
 			showFacesMessage(e.getMessage(), 4);
 			return null;
 		}
+	}
+
+	public String editarMinuta(Portaria aux) {
+		try {
+			portaria = portariaEjb.pegarPortaria(aux.getId());
+			servidorAutoridadeList = new ArrayList<Servidor>();
+
+			for (Servidor stemp : servidorEjb.findAll()) {
+				String vtipo = stemp.getAutoridade();
+				if (vtipo.contains("S"))
+					servidorAutoridadeList.add(stemp);
+			}
+			return redirect("/sistema/portaria/cadastro/frmCadPortaria.xhtml");
+		} catch (Exception e) {
+			e.printStackTrace();
+			showFacesMessage(e.getMessage(), 4);
+			return null;
+		}
+	}
+
+	public void salvarMinuta() {
+		try {
+
+			// selecionandoUGP();
+
+			portariaEjb.salvar(portaria);
+			portariaList = new ArrayList<Portaria>();
+			portariaList = portariaEjb.listaPortaria();
+			showFacesMessage("salvo com sucesso!!!", 2);
+		} catch (Exception e) {
+			e.printStackTrace();
+			showFacesMessage(e.getMessage(), 4);
+		}
+	}
+
+	public String abrirListaPortaria() throws Exception {
+		portariaList = new ArrayList<Portaria>();
+		portariaList = portariaEjb.listaPortaria();
+
+		Map<Integer, Portaria> mapPortaria = new HashMap<Integer, Portaria>();
+		String listaId = "";
+
+		List<UnidadeGestoraPortaria> listaUGP = new ArrayList<UnidadeGestoraPortaria>();
+
+		if (!listaUGP.isEmpty()) {
+
+			for (Portaria ptemp : portariaList) {
+				mapPortaria.put(ptemp.getId(), ptemp);
+
+				if (listaId.length() > 0) {
+					listaId = listaId + "," + ptemp.getId();
+				} else {
+					listaId = ptemp.getId().toString();
+				}
+
+			}
+			listaUGP = unidadeGestoraPortariaEjb.listaUGDasPortaria(listaId);
+
+			for (UnidadeGestoraPortaria ltemp : listaUGP) {
+				mapPortaria.get(ltemp.getId_portaria()).getListaUnidadeGestoraDaPortaria().add(ltemp);
+
+				ltemp.setUnidadeGestora(sistemaBean.getUnidadeGestoraMap().get(ltemp.getId_unidade_gestora()));
+				ltemp.setPortaria(mapPortaria.get(ltemp.getId_portaria()));
+			}
+		}
+		return redirect("/sistema/portaria/listaPortarias.xhtml");
 	}
 
 	public String preprarCadastroPortaria(Auditoria aux) {
@@ -337,37 +413,6 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 		portaria.getEquipeFiscalizacaoList().remove(eq);
 	}
 
-	public String abrirListaPortaria() throws Exception {
-		portariaList = new ArrayList<Portaria>();
-		portariaList = portariaEjb.findAll();
-
-		Map<Integer, Portaria> mapPortaria = new HashMap<Integer, Portaria>();
-		String listaId = "";
-
-		List<UnidadeGestoraPortaria> listaUGP = new ArrayList<UnidadeGestoraPortaria>();
-
-		for (Portaria ptemp : portariaList) {
-			mapPortaria.put(ptemp.getId(), ptemp);
-
-			if (listaId.length() > 0) {
-				listaId = listaId + "," + ptemp.getId();
-			} else {
-				listaId = ptemp.getId().toString();
-			}
-
-		}
-		listaUGP = unidadeGestoraPortariaEjb.listaUGDasPortaria(listaId);
-
-		for (UnidadeGestoraPortaria ltemp : listaUGP) {
-			mapPortaria.get(ltemp.getId_portaria()).getListaUnidadeGestoraDaPortaria().add(ltemp);
-			
-			ltemp.setUnidadeGestora(sistemaBean.getUnidadeGestoraMap().get(ltemp.getId_unidade_gestora()));
-			ltemp.setPortaria(mapPortaria.get(ltemp.getId_portaria()));
-		}
-
-		return redirect("/sistema/portaria/listaPortarias.xhtml");
-	}
-
 	public String viewPortaria(Portaria aux) {
 		portariaView = portariaEjb.pegarPortaria(aux.getId());
 
@@ -382,7 +427,7 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 		return redirect("/sistema/portaria/_viewPortaria.xhtml");
 	}
 
-	//executar opção salvar
+	// executar opção salvar
 	public void salvar() {
 		try {
 
@@ -572,7 +617,5 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 	public void setServidorAutoridadeList(List<Servidor> servidorAutoridadeList) {
 		this.servidorAutoridadeList = servidorAutoridadeList;
 	}
-	
-	
 
 }

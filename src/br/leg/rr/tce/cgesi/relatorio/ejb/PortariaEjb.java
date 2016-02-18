@@ -106,7 +106,7 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 	
 	
 	
-	
+	//
 	public List<Portaria> findAll() throws Exception {
 		try {
 			String sql = "select * from scsisaudit.portaria order by id";
@@ -122,6 +122,24 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 		}
 
 	}
+//lpad(cast(cod_curso as varchar),4,'0')
+	public List<Portaria> listaPortaria() throws Exception {
+		try {
+			String sql = "select id, id_auditoria, objetivo, deliberacao, id_servidor, "
+					+ "id_tipo_fiscalizacao, lpad(cast(numero_portaria as varchar),3,'0') as numero_portaria, ano_portaria, id_unidade_fiscalizadora from scsisaudit.portaria order by id";
+			List<Portaria> listaPortaria = executaSqlNativo(sql, Portaria.class, entityManager);
+			return listaPortaria;
+
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			throw new Exception(" Erro" + re.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(" Erro" + e.getMessage());
+		}
+
+	}
+
 	
 	public List<Portaria> findIdAuditoria(Integer id) throws Exception {
 		try {
@@ -141,7 +159,7 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 	
 	public List<Portaria>  ultimoNumeroPortaria(String anop) throws Exception {
 		try {
-			String sql = "select * from scsisaudit.portaria where ano_portaria = '" + anop + "' order by numero_portaria desc";
+			String sql = "select * from scsisaudit.portaria where ano_portaria = '" + anop + "' order by numero_portaria desc limit 1";
 			List<Portaria> listaPortaria = executaSqlNativo(sql, Portaria.class, entityManager);
 			return listaPortaria;			 
 
