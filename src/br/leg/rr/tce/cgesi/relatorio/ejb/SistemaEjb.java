@@ -12,6 +12,7 @@ import br.leg.rr.tce.cgesi.relatorio.entity.Auditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.CriteriosSelecao;
 import br.leg.rr.tce.cgesi.relatorio.entity.OrigemAuditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.Servidor;
+import br.leg.rr.tce.cgesi.relatorio.entity.StatusPortaria;
 import br.leg.rr.tce.cgesi.relatorio.entity.TipoAuditor;
 import br.leg.rr.tce.cgesi.relatorio.entity.TipoFiscalizacao;
 import br.leg.rr.tce.cgesi.relatorio.entity.UnidadeFiscalizadora;
@@ -92,6 +93,13 @@ public class SistemaEjb extends AbstractEjb implements Serializable {
 		}
 	}
 	
+	public List<StatusPortaria> getStatusPortariaList() throws Exception{
+		try {
+			return buscarComSqlNativo(StatusPortaria.class, entityManager);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	
 	public List<UnidadeGestora> findUGA(Auditoria aux) throws Exception {

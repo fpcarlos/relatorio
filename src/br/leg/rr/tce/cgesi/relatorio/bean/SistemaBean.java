@@ -17,6 +17,7 @@ import br.leg.rr.tce.cgesi.relatorio.entity.Auditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.CriteriosSelecao;
 import br.leg.rr.tce.cgesi.relatorio.entity.OrigemAuditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.Servidor;
+import br.leg.rr.tce.cgesi.relatorio.entity.StatusPortaria;
 import br.leg.rr.tce.cgesi.relatorio.entity.TipoAuditor;
 import br.leg.rr.tce.cgesi.relatorio.entity.TipoFiscalizacao;
 import br.leg.rr.tce.cgesi.relatorio.entity.UnidadeFiscalizadora;
@@ -52,6 +53,9 @@ public class SistemaBean extends AbstractBean implements Serializable {
 
 	private List<TipoAuditor> tipoAuditorList;
 	private Map<Integer, TipoAuditor> tipoAuditorMap = new HashMap<Integer, TipoAuditor>();
+	
+	private List<StatusPortaria> statusPortariaList;
+	private Map<Integer, StatusPortaria> statusPortariaMap = new HashMap<Integer, StatusPortaria>();
 		
 	@PostConstruct
 	public void init() {
@@ -60,6 +64,7 @@ public class SistemaBean extends AbstractBean implements Serializable {
 			getUnidadeFiscalizadoraList();
 			getCriteriosSelecaoList();
 			getServidorList();
+			getStatusPortariaList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -330,5 +335,41 @@ public class SistemaBean extends AbstractBean implements Serializable {
 		this.tipoAuditorMap = tipoAuditorMap;
 	}
 
+
+	public List<StatusPortaria> getStatusPortariaList() {
+		
+		try {
+			if(statusPortariaList == null || statusPortariaList.size()<1){
+				statusPortariaList = sistemaEjb.getStatusPortariaList();
+				statusPortariaMap = new HashMap<Integer, StatusPortaria>();
+				for(StatusPortaria x : statusPortariaList){
+					statusPortariaMap.put(x.getId(), x);	
+					}
+			}			
+			return statusPortariaList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+
+
+	public void setStatusPortariaList(List<StatusPortaria> statusPortariaList) {
+		this.statusPortariaList = statusPortariaList;
+	}
+
+
+	public Map<Integer, StatusPortaria> getStatusPortariaMap() {
+		return statusPortariaMap;
+	}
+
+
+	public void setStatusPortariaMap(Map<Integer, StatusPortaria> statusPortariaMap) {
+		this.statusPortariaMap = statusPortariaMap;
+	}
+
+	
+	
 	
 }

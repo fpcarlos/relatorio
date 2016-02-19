@@ -8,11 +8,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import br.leg.rr.tce.cgesi.relatorio.entity.Auditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.EquipeFiscalizacao;
 import br.leg.rr.tce.cgesi.relatorio.entity.Portaria;
+import br.leg.rr.tce.cgesi.relatorio.entity.PortariasAndamento;
 import br.leg.rr.tce.cgesi.relatorio.entity.UnidadeGestoraAuditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.UnidadeGestoraPortaria;
 
@@ -34,6 +34,9 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 	
 	@EJB
 	EquipeFiscalizacaoEjb equipeFiscalizacaoEjb;
+	
+	@EJB
+	PortariasAndamentoEjb portariasAndamentoEjb;
 
 	public void salvar(Portaria entity) throws Exception {
 		try {
@@ -65,8 +68,25 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 					equipeFiscalizacaoEjb.salvar(aux1);
 				}
 			}
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+	
+	public void salvarMinuta(Portaria entity) throws Exception{
+		try {
+			boolean sc=false;
+			if(entity.getId()==null)
+				sc=true;
+			
+			this.salvar(entity);
 			
 			
+			if(sc==true){
+				for(PortariasAndamento x: entity.getPortariasAndamentos()){
+					portariasAndamentoEjb.salvar(x);
+				}				
+			}
 			
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
@@ -157,9 +177,37 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 	}
 
 	
-	public List<Portaria>  ultimoNumeroPortaria(String anop) throws Exception {
+	public String  ultimoNumeroPortaria(String anop) throws Exception {
 		try {
-			String sql = "select * from scsisaudit.portaria where ano_portaria = '" + anop + "' order by numero_portaria desc limit 1";
+			String sql = "select COALESCE(max(cast(numero_portaria as integer))+1,0) as numero_portaria from scsisaudit.portaria where ano_portaria='" + anop + "'";
+			Integer resultSql =  (Integer) entityManager.createNativeQuery(sql).getSingleResult();
+			
+			//Portaria resultSql = executaSqlNativo(sql, Portaria.class, entityManager).get(0); 
+			/*
+			 String sql = "select COALESCE(max(cast(numero_portaria as integer))+1,0) as numero_portaria from scsisaudit.portaria where ano_portaria='" + anop + "'";
+			String sql = "id,  id_auditoria,  processo_numero,  processo_ano,  data_assinatura,  numero_publica_doe,  data_publica_doe, "
+					+ " objetivo,  deliberacao,  numero_portaria_revogada,  ano_portaria_revogada,  plan_inicio,  plan_fim,  plan_dias_uteis,  "
+					+ "exec_inicio,  exec_fim,  exec_dias_uteis,  rela_inicio,  rela_fim,  rela_dias_uteis,  id_servidor,  id_tipo_fiscalizacao,  "
+					+ "numero_portaria,  ano_portaria,  data_assinatua_portaria,  id_unidade_fiscalizadora from scsisaudit.portaria where ano_portaria='"+ anop + "'";
+					*/
+			//List<Portaria> listaPortaria = executaSqlNativo(sql, Portaria.class, entityManager);
+			
+			//return listaPortaria;
+			return resultSql.toString();
+
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			throw new Exception(" Erro" + re.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(" Erro" + e.getMessage());
+		}
+	}
+
+/*	public List<Portaria>  ultimoNumeroPortaria(String anop) throws Exception {
+		try {
+			//String sql = "select * from scsisaudit.portaria where ano_portaria = '" + anop + "' order by numero_portaria desc limit 1";
+			String sql = "select max(cast(numero_portaria as integer))+1 as numero_portaria from scsisaudit.portaria where ano_portaria = '" + anop + "' ";
 			List<Portaria> listaPortaria = executaSqlNativo(sql, Portaria.class, entityManager);
 			return listaPortaria;			 
 
@@ -170,7 +218,7 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 			e.printStackTrace();
 			throw new Exception(" Erro" + e.getMessage());
 		}
-	}
+	}*/
 
 	
 }

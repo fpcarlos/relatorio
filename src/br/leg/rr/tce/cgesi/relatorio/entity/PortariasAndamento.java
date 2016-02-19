@@ -38,9 +38,11 @@ public class PortariasAndamento implements Serializable {
 	private Portaria portaria;
 
 	//bi-directional many-to-one association to StatusPortaria
-	@ManyToOne
-	@JoinColumn(name="id_status_portaria")
-	private StatusPortaria statusPortaria;
+	//@ManyToOne
+	//@JoinColumn(name="id_status_portaria")
+	//private StatusPortaria statusPortaria;
+	@Column(name="id_status_portaria")
+	private Integer statusPortaria;
 
 	public PortariasAndamento() {
 	}
@@ -84,7 +86,7 @@ public class PortariasAndamento implements Serializable {
 	public void setPortaria(Portaria portaria) {
 		this.portaria = portaria;
 	}
-
+/*
 	public StatusPortaria getStatusPortaria() {
 		return this.statusPortaria;
 	}
@@ -92,5 +94,17 @@ public class PortariasAndamento implements Serializable {
 	public void setStatusPortaria(StatusPortaria statusPortaria) {
 		this.statusPortaria = statusPortaria;
 	}
+*/
 
+	public Integer getStatusPortaria() {
+		return statusPortaria;
+	}
+
+	public void setStatusPortaria(Integer statusPortaria) {
+		this.statusPortaria = statusPortaria;
+	}
+	
+	
+	
+	
 }

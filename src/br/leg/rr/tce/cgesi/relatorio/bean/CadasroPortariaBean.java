@@ -1,7 +1,6 @@
 package br.leg.rr.tce.cgesi.relatorio.bean;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -16,20 +15,26 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import com.sun.enterprise.universal.StringUtils;
+
 import br.leg.rr.tce.cgesi.relatorio.comum.entity.UnidadeGestora;
 import br.leg.rr.tce.cgesi.relatorio.comum.util.Util;
 import br.leg.rr.tce.cgesi.relatorio.ejb.AuditoriaEjb;
 import br.leg.rr.tce.cgesi.relatorio.ejb.EquipeFiscalizacaoEjb;
 import br.leg.rr.tce.cgesi.relatorio.ejb.PortariaEjb;
 import br.leg.rr.tce.cgesi.relatorio.ejb.ServidorEjb;
+import br.leg.rr.tce.cgesi.relatorio.ejb.StatusPortariaEjb;
 import br.leg.rr.tce.cgesi.relatorio.ejb.UnidadeGestoraEjb;
 import br.leg.rr.tce.cgesi.relatorio.ejb.UnidadeGestoraPortariaEjb;
 import br.leg.rr.tce.cgesi.relatorio.entity.Auditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.EquipeFiscalizacao;
 import br.leg.rr.tce.cgesi.relatorio.entity.Portaria;
+import br.leg.rr.tce.cgesi.relatorio.entity.PortariasAndamento;
 import br.leg.rr.tce.cgesi.relatorio.entity.Servidor;
+import br.leg.rr.tce.cgesi.relatorio.entity.StatusPortaria;
 import br.leg.rr.tce.cgesi.relatorio.entity.UnidadeGestoraAuditoria;
 import br.leg.rr.tce.cgesi.relatorio.entity.UnidadeGestoraPortaria;
+import br.leg.rr.tce.cgesi.relatorio.seguranca.bean.UsuarioBean;
 
 @Named
 @SessionScoped
@@ -37,7 +42,10 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Inject
 	private transient SistemaBean sistemaBean;
-
+	
+	@Inject
+	private transient UsuarioBean usuarioBean;
+	
 	@Inject
 	private Portaria portaria;
 
@@ -49,6 +57,9 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 
 	@Inject
 	private UnidadeGestora unidadeGestora;
+	
+	@Inject
+	private PortariasAndamento portariasAndamento;
 
 	@EJB
 	private AuditoriaEjb auditoriaEjb;
@@ -67,6 +78,9 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 
 	@EJB
 	private ServidorEjb servidorEjb;
+	
+	@EJB
+	private StatusPortariaEjb statusPortariaEjb;
 
 	private List<UnidadeGestora> unidadeGestoraLista = new ArrayList<UnidadeGestora>();
 	private List<Portaria> portariaList = new ArrayList<Portaria>();
@@ -82,7 +96,7 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 	private List<Servidor> servidorList = new ArrayList<Servidor>();
 
 	private List<Servidor> servidorAutoridadeList = new ArrayList<Servidor>();
-
+	
 	private String msgTexto;
 	private Portaria portariaView = new Portaria();
 
@@ -248,19 +262,35 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 			// int year = cal.get(Calendar.YEAR);
 			String vano = String.valueOf((Calendar.getInstance().get(Calendar.YEAR)));
 			String vnum = "";
-
+			/*
 			for (Portaria temp : portariaEjb.ultimoNumeroPortaria(vano)) {
 				vnum = temp.getNumeroPortaria();
 			}
+			*/
+			//Integer temp = portariaEjb.ultimoNumeroPortaria(vano);
+			//vnum=temp.toString();
+			//List<Portaria> temp=portariaEjb.ultimoNumeroPortaria(vano);
+			String temp=portariaEjb.ultimoNumeroPortaria(vano);
+			//vnum=temp.get(0).getNumeroPortaria();
+			vnum=temp;
 			if (vnum.isEmpty())
 				vnum = "000";
 
-			int nnum = Integer.valueOf(vnum) + 1;
-			DecimalFormat df = new DecimalFormat("000");
-			vnum = df.format((nnum));
+			//DecimalFormat df = new DecimalFormat("000");
+			//vnum =  df.format(vnum.toString());
+
+			//int nnum = Integer.valueOf(vnum) + 1;
+			//DecimalFormat df = new DecimalFormat("000");
+			//vnum = df.format(vnum = df.format(temp.get(0).getNumeroPortaria());
 			// return df.format(Integer.parseInt(sb.toString()));
-			portaria.setNumeroPortaria(vnum);
+			//String vnum2 = String.format("%03d", vnum);
+			String vnum2 = StringUtils.padLeft(vnum, 3,'0');
+			
+			portaria.setNumeroPortaria(vnum2);
 			portaria.setAnoPortaria(vano);
+			
+			 //portariasAndamentoList = new ArrayList<PortariasAndamento>();
+			//portaria.setPortariasAndamentos(new ArrayList<PortariasAndamentos>());
 
 			// return
 			// redirect("/sistema/portaria/cadastro/frmCadastroPortaria.xhtml");
@@ -282,6 +312,7 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 				if (vtipo.contains("S"))
 					servidorAutoridadeList.add(stemp);
 			}
+			portaria.setNumeroPortaria(StringUtils.padLeft(portaria.getNumeroPortaria(), 3,'0'));
 			return redirect("/sistema/portaria/cadastro/frmCadPortaria.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -294,10 +325,26 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 		try {
 
 			// selecionandoUGP();
+			StatusPortaria stPortaria = new StatusPortaria();
+			stPortaria=statusPortariaEjb.pegarStatusPortariaId(1);
+			
+			System.out.println(stPortaria);
+			
+			PortariasAndamento pAndamento = new PortariasAndamento();
+			
+			
+			pAndamento.setStatusDate(Util.hoje());
+			pAndamento.setStatusJustificativa(stPortaria.getNome());
+			pAndamento.setStatusPortaria(stPortaria.getId());
+			pAndamento.setStatusUsr(usuarioBean.getMostraUser());
+			portaria.setPortariasAndamentos(new ArrayList<PortariasAndamento>());
+			portaria.addPortariasAndamento(pAndamento);
 
-			portariaEjb.salvar(portaria);
+			//portariaEjb.salvar(portaria);
+			portariaEjb.salvarMinuta(portaria);
 			portariaList = new ArrayList<Portaria>();
 			portariaList = portariaEjb.listaPortaria();
+			
 			showFacesMessage("salvo com sucesso!!!", 2);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -618,4 +665,14 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 		this.servidorAutoridadeList = servidorAutoridadeList;
 	}
 
+	public PortariasAndamento getPortariasAndamento() {
+		return portariasAndamento;
+	}
+
+	public void setPortariasAndamento(PortariasAndamento portariasAndamento) {
+		this.portariasAndamento = portariasAndamento;
+	}
+
+	
+	
 }

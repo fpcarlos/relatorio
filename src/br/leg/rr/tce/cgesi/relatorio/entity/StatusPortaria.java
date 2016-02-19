@@ -25,8 +25,8 @@ public class StatusPortaria implements Serializable {
 	private String nome;
 
 	//bi-directional many-to-one association to PortariasAndamento
-	@OneToMany(mappedBy="statusPortaria")
-	private List<PortariasAndamento> portariasAndamentos;
+	//@OneToMany(mappedBy="statusPortaria")
+	//private List<PortariasAndamento> portariasAndamentos;
 
 	public StatusPortaria() {
 	}
@@ -46,7 +46,7 @@ public class StatusPortaria implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+/*
 	public List<PortariasAndamento> getPortariasAndamentos() {
 		return this.portariasAndamentos;
 	}
@@ -68,5 +68,5 @@ public class StatusPortaria implements Serializable {
 
 		return portariasAndamento;
 	}
-
+*/
 }

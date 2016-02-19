@@ -13,8 +13,7 @@
 			</p:submenu>	
 			<p:submenu label="Portaria" icon="ui-icon-bookmark">
 				<p:menuitem value="Listagem de Portarias"  action="#{cadasroPortariaBean.abrirListaPortaria}"/>
-				<p:menuitem value="Cad Portaria"  action="#{cadasroPortariaBean.preparaCadastroPortariaSemAuditoria}"/>
-				<p:menuitem value="Cad Portaria Ind"  action="#{portariaIndependenteBean.preparaCadastro}"/>
+				<p:menuitem value="Cad Portaria"  action="#{cadasroPortariaBean.prepararNovaPortaria()}"/>
 				</p:submenu>
 		    <p:menuitem value="Planejamento" 
 				ajax="false" icon="ui-icon-bookmark" style="padding-right: 4px" />
