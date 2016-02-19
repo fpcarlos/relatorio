@@ -22,7 +22,9 @@
 						emptyMessage="Nenhuma Portaria Enqontrada" rows="20"
 						paginator="true" paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						currentPageReportTemplate="({currentPage} de {totalPages})">
+						currentPageReportTemplate="({currentPage} de {totalPages})"
+						sortBy="#{s.numeroPortaria}" sortOrder="descending"
+						>
 				<p:column headerText="Auditoria" width="5%">
 					<h:outputText style="font-weight: bold" value="#{s.idAuditoria}" />
 				</p:column>

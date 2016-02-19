@@ -1,6 +1,7 @@
 package br.leg.rr.tce.cgesi.relatorio.bean;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -210,7 +211,7 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 			 * portaria.setTipoFiscalizacao(auditoria.getTipoFiscalizacao());
 			 * 
 			 */
-
+			servidorAutoridadeList = new ArrayList<Servidor>();
 			for (Servidor stemp : servidorEjb.findAll()) {
 				String vtipo = stemp.getAutoridade();
 				if (vtipo.contains("S"))
@@ -248,9 +249,24 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 			// portaria.setServidor(sistemaBean.getServidorMap().get(portaria.getServidor().getId()));
 			String vano = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			String vnum = "";
-			for (Portaria temp : portariaEjb.ultimoNumeroPortaria(vano)) {
-				vnum = temp.getNumeroPortaria();
-			}
+			//for(Portaria temp : portariaEjb.ultimoNumeroPortaria(vano))
+			//	vnum=temp.getNumeroPortaria();
+			List<Portaria> temp=portariaEjb.ultimoNumeroPortaria(vano);
+			//Integer vnum2 =  Integer.parseInt(temp.get(0).getNumeroPortaria());
+			//Integer.valueOf(temp.get(1).getNumeroPortaria());
+			//vnum2=Integer.sum(valueOf(vnum.toString()),1);
+			
+			
+			DecimalFormat df = new DecimalFormat("000");
+		    vnum = df.format(temp.get(0).getNumeroPortaria());
+			
+		    
+			//vnum=String.format("%03d",String.valueOf(vnum2));
+			
+			
+			//for (Portaria temp : portariaEjb.ultimoNumeroPortaria(vano)) {
+			//	vnum = temp.getNumeroPortaria();
+			//}
 
 			portaria.setNumeroPortaria(vnum);
 			portaria.setAnoPortaria(vano);
@@ -265,6 +281,8 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 	
 	public String editaNovaPortaria(Portaria aux){
 		try {
+			portaria = new Portaria();
+			servidorAutoridadeList = new ArrayList<Servidor>();
 			portaria = portariaEjb.pegarPortaria(aux.getId());
 			for (Servidor stemp : servidorEjb.findAll()) {
 				String vtipo = stemp.getAutoridade();
@@ -280,6 +298,17 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 		}
 	}
 	
+	public void salvarNovaPortaria(){
+		try {
+			
+			portariaEjb.salvar(portaria);
+			showFacesMessage("salvo com sucesso!!!", 2);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			showFacesMessage(e.getMessage(), 4);
+		}
+	}
 
 	public String preprarCadastroPortaria(Auditoria aux) {
 		try {

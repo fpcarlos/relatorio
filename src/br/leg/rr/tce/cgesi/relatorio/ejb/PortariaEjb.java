@@ -141,7 +141,7 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 	
 	public List<Portaria>  ultimoNumeroPortaria(String anop) throws Exception {
 		try {
-			String sql = "select * from scsisaudit.portaria where ano_portaria = '" + anop + "' order by numero_portaria desc";
+			String sql = "select max(cast(numero_portaria as integer))+1 as numero_portaria from scsisaudit.portaria where ano_portaria = '" + anop + "' ";
 			List<Portaria> listaPortaria = executaSqlNativo(sql, Portaria.class, entityManager);
 			return listaPortaria;			 
 
