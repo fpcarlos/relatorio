@@ -81,6 +81,16 @@ public class PortariaEjb extends AbstractEjb implements Serializable {
 			
 			this.salvar(entity);
 			
+			if(!entity.getUnidadeGestoraPortarias().isEmpty()){
+				for(UnidadeGestoraPortaria x: entity.getUnidadeGestoraPortarias()){
+					unidadeGestoraPortariaEjb.salvar(x);
+				}
+			}
+			if(!entity.getUnidadeGestoraPortariaExcluidas().isEmpty()){
+				for (UnidadeGestoraPortaria aux : entity.getUnidadeGestoraPortariaExcluidas()) {
+					unidadeGestoraPortariaEjb.excluir(aux);
+				}
+			}
 			
 			if(sc==true){
 				for(PortariasAndamento x: entity.getPortariasAndamentos()){

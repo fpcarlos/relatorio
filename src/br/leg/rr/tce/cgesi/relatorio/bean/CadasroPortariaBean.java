@@ -313,7 +313,7 @@ public class CadasroPortariaBean extends AbstractBean implements Serializable {
 					servidorAutoridadeList.add(stemp);
 			}
 			portaria.setNumeroPortaria(StringUtils.padLeft(portaria.getNumeroPortaria(), 3,'0'));
-			return redirect("/sistema/portaria/cadastro/frmCadPortaria.xhtml");
+			return redirect("/sistema/portaria/cadastro/frmCadPortariaEtapa1.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
 			showFacesMessage(e.getMessage(), 4);
